@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爆料前线 - 妙妙云资讯</title>
+  <style>
+    :root {
+      --bg: #FFE600;
+      --primary: #FF2E00;
+      --secondary: #0057FF;
+      --black: #111;
+      --border: 4px solid var(--black);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Impact", "Arial Black", "PingFang SC", sans-serif; background: var(--bg); color: var(--black); line-height: 1.5; background-image: radial-gradient(circle, #000 2px, transparent 2.5px); background-size: 20px 20px; }
+    a { text-decoration: none; color: inherit; }
+    
+    .layout-root { max-width: 1200px; margin: 0 auto; padding: 20px; background: #fff; border: var(--border); box-shadow: 15px 15px 0 var(--black); margin-top: 40px; margin-bottom: 40px; }
+    
+    header { position: sticky; top: -20px; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: var(--border); background: var(--primary); color: #fff; box-shadow: 0 10px 0 var(--black); margin: -20px -20px 30px -20px; }
+    .logo-group { display: flex; align-items: center; }
+    .logo-svg { width: 40px; height: 40px; margin-right: 12px; filter: drop-shadow(3px 3px 0 var(--black)); }
+    .logo-text { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; text-shadow: 3px 3px 0 var(--black); letter-spacing: 2px; }
+    
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a { color: #fff; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; text-shadow: 2px 2px 0 var(--black); }
+    .nav-links a:hover { color: var(--bg); }
+    .nav-cta { padding: 8px 20px; background: var(--bg); color: var(--black) !important; border: var(--border); box-shadow: 4px 4px 0 var(--black); font-weight: 900; text-shadow: none !important; font-size: 1.2rem; }
+    .nav-cta:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--black); color: var(--black); }
+    @media(max-width: 900px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+    .page-header { background: var(--secondary); padding: 40px 20px; color: #fff; text-align: center; border-bottom: var(--border); margin: -20px -20px 40px -20px; }
+    .page-header h1 { font-size: 4rem; text-shadow: 4px 4px 0 var(--black); margin-bottom: 10px; }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 20px;
+    }
+    .article-card {
+      background: #fff;
+      border: var(--border);
+      padding: 25px;
+      box-shadow: 8px 8px 0 var(--black);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .article-card:nth-child(even) {
+      background: #f0f0f0;
+    }
+    .article-card:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0 var(--secondary);
+    }
+    .article-card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    .article-card h2 a {
+      color: var(--black) !important;
+    }
+    .article-card h2 a:hover {
+      color: var(--primary) !important;
+    }
+    .article-card p {
+      font-size: 1.1rem;
+      font-family: "PingFang SC", sans-serif;
+      font-weight: 600;
+      flex-grow: 1;
+      margin-bottom: 25px;
+    }
+    .read-more {
+      padding: 10px 20px;
+      background: var(--bg);
+      color: var(--black) !important;
+      border: var(--border);
+      box-shadow: 4px 4px 0 var(--black);
+      font-weight: 900;
+      text-transform: uppercase;
+      align-self: flex-start;
+      text-decoration: none !important;
+      transition: transform 0.1s;
+    }
+    .read-more:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--black);
+    }
+    
+    footer { border-top: var(--border); padding: 30px; background: var(--black); color: #fff; text-align: center; margin: 40px -20px -20px -20px; }
+    .footer-nav { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .footer-nav a { font-weight: bold; font-size: 1.2rem; }
+    .footer-nav a:hover { color: var(--bg); text-decoration: underline; }
+    p a, li a { color: var(--secondary) !important; text-decoration: underline !important; font-weight: 900; text-underline-offset: 4px; }
+</style>
+</head>
+<body>
+  <div class="layout-root">
+    <header>
+      <a href="index.html" class="logo-group">
+        <a href="index.html" style="display:flex; align-items:center;">
+          <svg viewBox="0 0 100 100" class="logo-svg" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="50 5 95 30 80 85 20 85 5 30" fill="var(--bg)" stroke="var(--black)" stroke-width="6"/>
+            <text x="50" y="65" font-family="Impact" font-size="40" font-weight="900" fill="var(--primary)" text-anchor="middle" stroke="var(--black)" stroke-width="2">妙</text>
+          </svg>
+          <div class="logo-text">妙妙云</div>
+        </a>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#why">大家在抢啥</a>
+        <a href="index.html#pricing">特惠车票</a>
+        <a href="index.html#reviews">车友评价</a>
+        <a href="insights.html" style="color:var(--bg);">爆料前线</a>
+        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" class="nav-cta" rel="nofollow" target="_blank">马上上车</a>
+      </nav>
+    </header>
+
+    <div class="page-header">
+      <h1>爆料前线</h1>
+      <p style="font-size:1.5rem; font-weight:bold; font-family:'PingFang SC';">第一手测速报告与防坑指南，全网独家放送！</p>
+    </div>
+
+    <div class="card-grid">
+      <article class="article-card">
+        <h2><a href="cloud-bandwidth.html">告别缓冲条！妙妙云超大带宽实测与全方位解析</a></h2>
+        <p>我们把带宽拉到了极限，快来看看这辆车的真实速度究竟有多狂野！</p>
+        <a href="cloud-bandwidth.html" class="read-more">立刻查看</a>
+      </article>
+      <article class="article-card">
+        <h2><a href="cdn-acceleration-tech.html">2026年CDN加速技术深度演进：如何实现毫秒级响应</a></h2>
+        <p>还在等网页转圈？揭秘最新加速技术是如何干掉那该死的延迟的。</p>
+        <a href="cdn-acceleration-tech.html" class="read-more">立刻查看</a>
+      </article>
+      <article class="article-card">
+        <h2><a href="global-edge-computing.html">边缘计算在企业出海业务中的关键作用与落地指南</a></h2>
+        <p>让服务器离你的客户更近一点，跨国生意不再卡顿的秘密武器。</p>
+        <a href="global-edge-computing.html" class="read-more">立刻查看</a>
+      </article>
+      <article class="article-card">
+        <h2><a href="ddos-protection-guide.html">游戏出海的梦魇：无死角防御Tb级别DDoS攻击解析</a></h2>
+        <p>又被黑客打断线了？看看顶级防御是如何把那些垃圾流量拒之门外的。</p>
+        <a href="ddos-protection-guide.html" class="read-more">立刻查看</a>
+      </article>
+      <article class="article-card">
+        <h2><a href="cloud-native-architecture.html">云原生架构下的多云网络连通性挑战与终极应对</a></h2>
+        <p>不要把鸡蛋放在一个篮子里，多云架构教你如何做到永不宕机。</p>
+        <a href="cloud-native-architecture.html" class="read-more">立刻查看</a>
+      </article>
+      <article class="article-card">
+        <h2><a href="video-streaming-optimization.html">流媒体全球分发的高阶弱网优化策略解析与应用</a></h2>
+        <p>在拥堵的网络环境里也能流畅看 4K，这就是魔法背后的核心科技！</p>
+        <a href="video-streaming-optimization.html" class="read-more">立刻查看</a>
+      </article>
+    </div>
+
+    <footer>
+      <div class="footer-nav">
+        <a href="sitemap.html">网站地图</a>
+        <a href="about.html">关于我们</a>
+        <a href="terms.html">服务条款</a>
+        <a href="privacy.html">隐私政策</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
