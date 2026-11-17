@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>一个账号几台设备？手机、电脑、电视盒子同时用的安排思路 - 妙妙云</title>
-<meta name="description" content="家里手机、电脑、平板、电视盒子都想用加速服务，设备数不够怎么办？介绍设备数的计算方式、分设备策略以及路由器方案的利弊。">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>宿主机能访问API但Docker容器不行：DNS、代理与服务地址逐层诊断</title>
+<meta content="用只读Docker状态和容器内单次请求区分DNS、连接及HTTP错误，避免把localhost或代理环境误用到容器。" name="description"/>
 <style>
 
     :root {
@@ -77,43 +78,46 @@
 </style>
 </head>
 <body>
-  <div class="layout-root">
+<div class="layout-root">
 <header>
-      <a href="index.html" class="logo-group">
-        <svg viewBox="0 0 100 100" class="logo-svg" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50 5 95 30 80 85 20 85 5 30" fill="var(--bg)" stroke="var(--black)" stroke-width="6"/>
-          <text x="50" y="65" font-family="Impact" font-size="40" font-weight="900" fill="var(--primary)" text-anchor="middle" stroke="var(--black)" stroke-width="2">妙</text>
-        </svg>
-        <div class="logo-text">妙妙云</div>
-      </a>
-      <nav class="nav-links">
-        <a href="index.html#why">大家在抢啥</a>
-        <a href="index.html#pricing">特惠车票</a>
-        <a href="index.html#reviews">车友评价</a>
-        <a href="insights.html">爆料前线</a>
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" class="nav-cta" rel="nofollow" target="_blank">马上上车</a>
-      </nav>
-    </header>
-    <div class="page-content">
-
-<div class="container">
-<h1>一个账号几台设备？手机、电脑、电视盒子同时用的安排思路</h1>
-<p>选套餐时，设备数是最容易被忽略、又最容易踩坑的一项。家里的设备越来越多，下面这套算法能帮你少花冤枉钱。</p>
-<h2>一、先数“同时在线”而不是“拥有多少台”</h2>
-<p>你有手机、电脑、平板和电视盒子四台设备，但平时可能同一时间只用两台。套餐的限制通常指同时在线的数量，所以按实际会同时开几台来选，更合理。</p>
-<h2>二、哪些设备值得开</h2>
-<ul><li>手机：出门在外最常用，建议保留。</li><li>电脑：办公和查资料的主力。</li><li>电视盒子：看流媒体时才需要，可以只在使用时打开。</li><li>平板：多数时候与手机重复，可以按需开启。</li></ul>
-<h2>三、家人共用的安排</h2>
-<p>如果家里有两三个人都要用，建议错开使用高峰，或者选择设备数更多的档位。不要把同一个账号发给太多不认识的人，容易触发限制。</p>
-<h2>四、路由器方案的利与弊</h2>
-<p>在路由器上设置，家里所有设备都能自动使用，只占一个设备名额，看起来很省事。但设置门槛较高，遇到问题排查也更麻烦，新手建议先从单设备开始。</p>
-<h2>五、换设备时的小提醒</h2>
-<p>更换手机或电脑前，先在旧设备上退出，再在新设备上导入，避免占着名额。</p>
-<h2>小结</h2>
-<p>设备数看似小事，选错就会影响体验。先在妙妙云的免费体验里试用你最常用的两台设备，再决定档位。</p>
+<a class="logo-group" href="index.html">
+<svg class="logo-svg" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<polygon fill="var(--bg)" points="50 5 95 30 80 85 20 85 5 30" stroke="var(--black)" stroke-width="6"></polygon>
+<text fill="var(--primary)" font-family="Impact" font-size="40" font-weight="900" stroke="var(--black)" stroke-width="2" text-anchor="middle" x="50" y="65">妙</text>
+</svg>
+<div class="logo-text">妙妙云</div>
+</a>
+<nav class="nav-links">
+<a href="index.html#why">大家在抢啥</a>
+<a href="index.html#pricing">特惠车票</a>
+<a href="index.html#reviews">车友评价</a>
+<a href="insights.html">爆料前线</a>
+<a class="nav-cta" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">马上上车</a>
+</nav>
+</header>
+<div class="page-content">
+<div class="container"><h1>宿主机能访问API但Docker容器不行：DNS、代理与服务地址逐层诊断</h1><div data-swc-article-body="2026-11-16"><p>电脑浏览器能打开接口，Docker中的应用却超时，不能据此认定云服务宕机。容器拥有自己的网络视角，宿主机的代理设置、域名解析和回环地址未必在里面代表同一件事。本文面向管理自己开发环境的人，用一次请求从状态、地址到应用响应逐层定位，不要求先重建全部容器。</p>
+<h2>先取得原始错误，别只看失败提示</h2>
+<p>应用显示“连接失败”可能对应域名无法解析、端口拒绝、证书校验或已经收到HTTP错误。先保存发生时间、目标域名和错误类别，删除日志中的令牌与个人资料。若应用刚更新过，记下镜像版本和配置变化，避免将部署错误误判为网络问题。</p>
+<p>确认接口本身允许从当前环境访问，使用服务提供的无副作用测试入口，或自己管理的健康检查路径。不要用支付、发邮件或创建订单接口测试连通性。浏览器成功也可能依赖登录Cookie，不能拿它直接证明没有凭据的容器请求应该成功。</p>
+<h2>第一轮：读取容器状态与最近日志</h2>
+<ol><li>运行<code>docker ps -a</code>，找到目标容器名称，查看它是否正在运行或反复重启。</li><li>运行<code>docker logs --since 10m 容器名</code>，查看故障附近的应用输出；程序没有把日志写到标准输出时，此处可能信息有限。</li><li>运行<code>docker inspect 容器名</code>，在本机查看网络模式和所连接网络，分享结果前删除环境变量及其他敏感内容。</li></ol>
+<p>容器没有运行时，先处理启动错误；暂停的容器也不能正常执行后续命令。inspect输出很长，不应整份贴到公开论坛。普通排查只需说明网络模式、网络名称和相关错误，完整凭据对判断连接阶段没有帮助。</p>
+<h2>第二轮：在同一个容器里发一次请求</h2>
+<p>若容器已包含curl，可执行<code>docker exec 容器名 curl -I --max-time 15 https://目标域名/只读路径</code>。把示例地址替换为有权测试的真实入口；有些服务不接受HEAD请求，应使用其文档允许的只读方式。不要把返回的方法不允许当作网络不通。</p>
+<p>提示找不到curl只代表镜像缺少工具，不证明连接失败。不要为了诊断直接给生产容器安装一堆软件；可以在受控开发环境使用符合团队流程的调试镜像，或利用应用已有的诊断能力。核心要求是测试网络环境与原应用一致。</p>
+<h2>根据错误选择分支</h2>
+<p>无法解析域名时，调查容器所用DNS和网络模式；连接被拒绝时，核对目标地址、端口及监听位置；连接超时则结合防火墙、路由和服务状态继续查。若已经收到未授权或权限不足响应，说明至少到达了HTTP服务，应转向凭据和访问条件。</p>
+<p>不要通过关闭证书校验解决TLS错误。先核对容器时间、目标域名和证书信任来源。企业环境可能有指定证书配置，应按管理流程处理。把宿主机的私人证书或密钥随意复制到镜像中，会增加长期维护与泄露风险。</p>
+<h2>最常见的地址误会：localhost</h2>
+<p>容器中的localhost通常指容器自身，不是你电脑桌面上的服务。如果应用要调用另一个容器，应按所用网络的服务发现方式填写服务名与端口；如果调用宿主机服务，则按Docker平台支持的方式访问，不能跨平台照抄一个地址。</p>
+<p>例如数据库在另一个容器，应用却指向自己的回环地址，换任何外网线路都不会解决问题。先画出应用容器、数据库容器、宿主机和外部API四个位置，再标出每条请求从哪里发出，地址错误通常会变得明显。</p>
+<h2>代理要在实际发请求的环境中生效</h2>
+<p>宿主机浏览器使用代理，不等于容器内程序自动继承。检查应用支持的代理配置及排除规则，避免把内部服务也送到外部路径。修改前保存原配置，只调整一项，并通过团队正常的重新部署流程生效，不在运行环境留下无法重现的手工改动。</p>
+<p>当确定业务需要且允许使用跨境网络服务，再做<a href="https://dajichang.mom/">开发者机场线路选择</a>时，应核对协议支持、设备条件和目标地区；套餐列表不能证明某个API允许该出口，容器地址与认证问题仍须单独解决。</p>
+<p>需要核对同网容器时，可运行<code>docker network inspect 网络名</code>，查看目标是否连接在预期网络中。这个读取动作不会自动修正网络关系；发现缺失后，应回到部署定义处理，而不是临时连接后忘记保存。若接口返回限流响应，读取服务约定的等待方式，减少重复测试；持续高速重试既不能验证稳定性，还可能扩大故障。超时值也应区分连接等待与完整业务处理，不要简单把所有期限设成无限。</p><h2>用应用本身完成最终验证</h2>
+<p>命令行请求成功后，回到原应用执行一次无副作用任务，核对超时、重试与日志是否恢复。curl与应用可能使用不同证书库或代理配置，因此两者结果不同是继续调查的线索。保存修复项与验证条件，下一次镜像更新才能重做同样检查。</p><p>验证结束后停止临时诊断任务，保留经过脱敏的关键结果即可。</p></div></div>
 </div>
-
-    </div>
-  </div>
+</div>
 </body>
 </html>
